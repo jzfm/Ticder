@@ -67,7 +67,7 @@ public class StudentController {
 		return new Random();
 	}
 
-	public List<Group> groupGenerator(){
+	private List<Group> groupGenerator(){
 		List<Student> studentList = repository.getAllStudents();
 		List<Student> studentsToGroup = new ArrayList<>();
 		List<Group> groupsList = new ArrayList<>();
