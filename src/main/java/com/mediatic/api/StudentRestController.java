@@ -27,10 +27,10 @@ public class StudentRestController {
 	public String register(@RequestBody String jStudent) throws InvalidParamException, NotFoundException {
 
 		StudentDTO newStudent = new Gson().fromJson(jStudent, StudentDTO.class);
+
 		StudentDTO student = controller.register(newStudent);
-		
-		StudentDTO studentCreated = controller.getStudentByName(student.getName());
-		return toJson(studentCreated);
+
+		return toJson(student);
 	}
 
 	@DeleteMapping(value = "/students/{idStudent}", produces = "application/json;charset=UTF-8")
@@ -43,9 +43,9 @@ public class StudentRestController {
 	@PostMapping(value = "/students/match", produces = "application/json;charset=UTF-8")
 	public String match() {
 
-		List<GroupDTO> groupingCreated = controller.getGroups();
+		List<GroupDTO> matchedStudents = controller.getGroups();
 
-		return toJson(groupingCreated);
+		return toJson(matchedStudents);
 	}
 	
 	private String toJson(Object object){

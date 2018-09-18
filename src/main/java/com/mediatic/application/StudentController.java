@@ -41,10 +41,8 @@ public class StudentController {
 	public List<StudentDTO> listStudents() throws NotFoundException {
 		List<Student> studentList = repository.getAllStudents();
 		List<StudentDTO> studentDTOList = new ArrayList<>();
-
 		if (studentList.isEmpty())
 			throw new NotFoundException();
-
 		for (Student s : studentList) {
 			studentDTOList.add(new StudentDTO(s));
 		}
@@ -69,7 +67,7 @@ public class StudentController {
 		return new Random();
 	}
 
-	private List<Group> groupGenerator(){
+	public List<Group> groupGenerator(){
 		List<Student> studentList = repository.getAllStudents();
 		List<Student> studentsToGroup = new ArrayList<>();
 		List<Group> groupsList = new ArrayList<>();
@@ -82,8 +80,8 @@ public class StudentController {
 			Group groupedStudents = new Group(studentsToGroup);
 			groupsList.add(groupedStudents);
 			studentsToGroup.clear();
-	}
-	return groupsList;
+		}
+		return groupsList;
 	}
 
 	public List<GroupDTO> getGroups(){
