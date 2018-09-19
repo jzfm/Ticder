@@ -38,7 +38,7 @@ public class StudentController {
 		return new StudentDTO(student);
 	}
 	
-	public List<StudentDTO> listStudents() throws NotFoundException {
+	public List<StudentDTO> listStudents() throws NotFoundException, InvalidParamException {
 		List<Student> studentList = repository.getAllStudents();
 		List<StudentDTO> studentDTOList = new ArrayList<>();
 		if (studentList.isEmpty())
@@ -67,16 +67,21 @@ public class StudentController {
 		return new Random();
 	}
 
+	private void addStudentsToGroups(List<Student> studentList, List<Student> studentsToGroup){
+		for (int i=0; i < getGroupSize(studentList.size()); ++i) {
+			Student student = studentList.get(randomGenerator().nextInt(studentList.size()));
+			studentsToGroup.add(student);
+			studentList.remove(student);
+		}
+	}
+
 	private List<Group> groupGenerator(){
 		List<Student> studentList = repository.getAllStudents();
 		List<Student> studentsToGroup = new ArrayList<>();
 		List<Group> groupsList = new ArrayList<>();
+
 		while (studentList.size() > 0){
-			for (int i=0; i < getGroupSize(studentList.size()); ++i) {
-				Student student = studentList.get(randomGenerator().nextInt(studentList.size()));
-				studentsToGroup.add(student);
-				studentList.remove(student);
-			}
+			addStudentsToGroups(studentList, studentsToGroup);
 			Group groupedStudents = new Group(studentsToGroup);
 			groupsList.add(groupedStudents);
 			studentsToGroup.clear();
@@ -84,7 +89,7 @@ public class StudentController {
 		return groupsList;
 	}
 
-	public List<GroupDTO> getGroups(){
+	public List<GroupDTO> getGroups() throws InvalidParamException {
 		List<GroupDTO> groupDTOList = new ArrayList<>();
 		for (Group group : groupGenerator()) {
 			GroupDTO groupDTO = new GroupDTO(group);
@@ -92,4 +97,5 @@ public class StudentController {
 		}
 		return groupDTOList;
 	}
+
 }

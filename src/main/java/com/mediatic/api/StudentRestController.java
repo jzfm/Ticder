@@ -24,7 +24,7 @@ public class StudentRestController {
 	private StudentController controller = new StudentController();
 	
 	@PostMapping(value = "/students", produces = "application/json;charset=UTF-8")
-	public String register(@RequestBody String jStudent) throws InvalidParamException, NotFoundException {
+	public String register(@RequestBody String jStudent) throws InvalidParamException {
 
 		StudentDTO newStudent = new Gson().fromJson(jStudent, StudentDTO.class);
 
@@ -41,7 +41,7 @@ public class StudentRestController {
 	}
 	
 	@PostMapping(value = "/students/match", produces = "application/json;charset=UTF-8")
-	public String match() {
+	public String match() throws InvalidParamException {
 
 		List<GroupDTO> matchedStudents = controller.getGroups();
 
